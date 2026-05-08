@@ -1,0 +1,179 @@
+%LIBRERIAS:
+
+:-use_module(library(pce)).
+:-use_module(library(pce_style_item)).
+
+% PANTALLA PRINCIPAL
+
+iniciar:-
+    new(Menu, dialog('PROGRAMACION PERL Y JAVA', size(1000,800))),
+    new(L,label(nombre,'DIAGNOSTICO FALLAS AUTOMOTRICES')),
+    new(A,label(nombre,'JOSUE PEREZ ')),
+    new(@texto,label(nombre,'INDICA LAS FALLAS QUE TIENE TU AUTOMOVIL')),
+    new(@respl,label(nombre,'')),
+    new(Salir,button('SALIR',and(message(Menu, destroy),message(Menu,free)))),
+    new(@boton,button('RESPONDE EL CUESTIONARIO: ',message(@prolog,botones))),
+
+
+    send(Menu,append(L)),new(@btncarrera,button('DIAGNOSTICO?')),
+    send(Menu,display,L,point(75,30)),
+    send(Menu,display,A,point(150,360)),
+    send(Menu,display,@boton,point(100,200)),
+    send(Menu,display,@texto,point(20,100)),
+    send(Menu,display,Salir,point(20,400)),
+    send(Menu,display,@respl,point(20,130)),
+    send(Menu,open_centered).
+
+%SOLUCION DE FALLAS DE ACUERDO AL DIAGNOSTICO
+
+fallas('REALIZAR CAMBIO DE ACEITE:
+
+    Siga los siguientes pasos:
+
+    1. Abra el capo del automovil.
+    2. Ubique y Retire el tapon del motor.
+    3. ubique la valvula de purgacion debajo del motor.
+    4. Coloque un deposito debajo del motor.
+    5. Abrir la valvula y drenar el aceite antiguo.
+    6. Cierre la valvula.
+    7. Introdusca el aceite nuevo y coloque el tapon.
+    8. Listo.felicitaciones lo lograste'):-aceite,!.
+
+fallas('REALIZAR ALINEACION Y BALANCEO:
+
+        1. Llavar el automovil a un taller
+           para realizar la alineacion y balanceo'):-suspension,!.
+
+fallas('REVISAR LA BATERIA:
+
+    Siga los siguientes pasos:
+
+    1. Abra el capo del automovil.
+    2. Ubique la bateria.
+        3. Verifique si estan bien conctados los bornes.
+    4. Trate de arrancar el auto.
+    5. Si no arranca lleve la bateria a un centro de carga.
+        6. Coloque la bateria y trate de arrancar nuevamente.
+        7. Si aun no arranca reemplace la bateria.'):-electronico,!.
+
+fallas('REPARACION DEL SISTEMA DE FRENOS:
+
+    Siga los siguientes pasos:
+
+    1. Detecte ruidos anormales al frenar.
+        2. Revisas pastillas de frenos.
+    3. Si estan desgastadas proceda a cambiarlas.
+    4. Retire las pastillas desgastadas y coloque las nuevas.
+    5. Si no puede realisar el cambio lleve el auto a un taller '):-frenos,!.
+
+fallas('REVISION DE LA COMPUTADORA DEL AUTOMOVIL:
+
+        1. Lleve el automovil a un taller especializado.
+    2. Solicite que le realicen un diagnostico con scaner.
+        3. Decida reparar o desechar segun el costo.'):-computadora,!.
+
+fallas('REVISION O CAMBIO DE BOCINAS:
+
+    Sigue los siguientes pasos:
+    1. Ubica la o las bocinas que no esten funcionando.
+    2. Retira el protector de la bocina.
+    3. Revisa que los conectores esten bien colocados.
+        4. Reemplazar cables da ados.
+        5. Si al realizar estos pasos aun no funciona;
+    6. Procede a reemplazar la o las bocinas da adas.'):-sonido,!.
+
+
+fallas('SIN RESULTADOS! COMPRATE UN AUTO NUEVO :/').
+
+% PREGUNTAS SOBRE LAS FALLAS AUTOMOTRICES
+
+aceite:- cambio_aceite,
+    pregunta('TU MOTOR ESTA FALLANDO?'),
+    pregunta('ESTA GASTANDO DEMACIADO COMBUSTIBLE?'),
+    pregunta('RUIDOS ANOMALOS EN EL MOTOR? '),
+    pregunta('PROBLEMAS AL ARRANCAR EL AUTO EN FRIO?'),
+    pregunta('PERDIDA DE FUERZA DEL MOTOR? ').
+
+suspension:- alineacion_direccion,
+    pregunta('CREE TENER PROBLEMAS DE SUSPENCION?'),
+    pregunta('SU VEHICULO GIRA AUNQUE EL TIMON ESTE DERECHO?'),
+    pregunta('SUS LLANTAS SE DESGASTAN DE UN SOLO LADO? '),
+    pregunta('SIENTE QUE SU TIMON VIBRA MUCHO?').
+
+electronico:- bateria_agotada,
+    pregunta('CREE TENER PROBLEMAS ELECTRICOS?'),
+    pregunta('SUS LUCES ALUMBRAN DEMACIADO BAJO?'),
+    pregunta('EL RADIO DE SU AUTO NO ENCIENDE?'),
+    pregunta('AL DAR SWICH SOLO ESCUCHA UN RUIDO?'),
+    pregunta('EL AUTO NO ENCIENDE?'),
+    pregunta('SU BATERIA ES MUY ANTIGUA?').
+
+frenos:- cambio_frenos,
+    pregunta('CREE TENER PROBLEMAS EN LOS FRENOS DE SU AUTO?'),
+    pregunta('AL FRENAR ESCUCHA RUIDOS O RECHINIDOS?'),
+    pregunta('SU AUTO TARDA EN FRENAR? ').
+
+computadora:- check_egine,
+    pregunta('LA LUZ CHECK SE ENCENDIO EN EL TABLERO?'),
+    pregunta('LA LUZ EGINE SE MANTIEN ENCENDIDA?').
+
+sonido:- cambio_bocina,
+    pregunta('CREE TENER PROBLEMAS CON LAS BOSINAS DE SU AUTO?'),
+    pregunta('LAS BOCINAS NO SE ESCUCHAN?'),
+    pregunta('LA BATERIA TIENE SUFICIENTE CARGA?').
+
+%IDENTIFICADOR DE FALLAS QUE DIRIGE HACIA LAS PREGUNTAS
+
+cambio_aceite:-pregunta('PROBLEMAS DE MOTOR?'),!.
+alineacion_direccion:-pregunta('PROBLEMAS DE SUSPENCION?'),!.
+bateria_agotada:-pregunta('PROBLEMAS ELECTRICOS?'),!.
+cambio_frenos:-pregunta('PROBLEMAS DE FRENOS?'),!.
+cambio_bocina:-pregunta('PROBLEMAS DE BOCINAS'),!.
+check_egine:-pregunta('LA LUZ CHECK SE ENCENDIO EN EL TABLERO'),!.
+
+% DIAGNOSTICO BASADO EN PREGUNTAS DE SI O NO, cuando el
+% CUANDO EL USUARIO DICE QUE SI SE PASA A LA SIGUIENTE PREGUNTA DE LA
+% MISMA FALLA.
+% SI LAS RESPUESTAS SEGUN LA FALLA SON SI INDICA LA SOLUCION.
+%SI DICE QUE NO SE PASA A LA PREGUNTA DE LA SIGUIENTE FALLA.
+%SI LAS RESPUESTAS SEGUN LA FALLA SON NO TERMINA EL SISTEMA.
+
+:-dynamic si/1,no/1.
+preguntar(Problema):- new(Di,dialog('DIAGNOSTICO MECANICO AUTOMOTRIZ')),
+     new(L2,label(texto,'RESPONDE EL CUESTIONARIO')),
+     new(La,label(prob,Problema)),
+     new(B1,button(si,and(message(Di,return,si)))),
+     new(B2,button(no,and(message(Di,return,no)))),
+
+         send(Di,append(L2)),
+     send(Di,append(La)),
+     send(Di,append(B1)),
+     send(Di,append(B2)),
+
+     send(Di,default_button,si),
+     send(Di,open_centered),get(Di,confirm,Answer),
+     write(Answer),send(Di,destroy),
+     ((Answer==si)->assert(si(Problema));
+     assert(no(Problema)),fail).
+
+% LIMPIAMOS PANTALLA DESPUES DE CADA PREGUNTA.
+% VOLVER A PREGUNTAR.
+
+pregunta(S):-(si(S)->true; (no(S)->false; preguntar(S))).
+limpiar :- retract(si(_)),fail.
+limpiar :- retract(no(_)),fail.
+limpiar.
+
+% PROCESO DE ELECCION DE ACUERDO AL DIAGNOSTICO.
+
+botones :- lim,
+    send(@boton,free),
+    send(@btncarrera,free),
+    fallas(Falla),
+    send(@texto,selection('LA SOLUCION A TU PROBLEMA ES: ')),
+    send(@respl,selection(Falla)),
+    new(@boton,button('INICIA EL PROCEDIMIENTO MECANICO',message(@prolog,botones))),
+        send(Menu,display,@boton,point(40,50)),
+        send(Menu,display,@btncarrera,point(20,50)),
+limpiar.
+lim :- send(@respl, selection('')).

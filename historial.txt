@@ -1,0 +1,17 @@
+HISTORIAL DE DIAGNOSTICOS - Sistema Experto Automotriz
+=====================================================
+
+DIAGNOSTICO #1
+-------------------------------------
+REALIZAR ALINEACION Y BALANCEO:
+
+  1. Lleve el automovil a un taller especializado.
+  2. Solicite el servicio de alineacion y balanceo.
+  3. Se recomienda hacerlo cada 10,000 km.
+
+DIAGNOSTICO #2
+-------------------------------------
+SIN RESULTADOS.
+No se identifico la falla con las respuestas proporcionadas.
+Consulte a un mecanico especializado.
+

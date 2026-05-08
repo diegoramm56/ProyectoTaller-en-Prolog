@@ -1,0 +1,27 @@
+IMAGENES REQUERIDAS - Sistema Experto Automotriz
+=================================================
+
+Coloca en esta carpeta (img/) los siguientes archivos PNG.
+Tamano recomendado: 64x64 o 128x128 pixeles, fondo transparente.
+Si un archivo no existe, el sistema lo ignora (no da error).
+
+ARCHIVO           | DESCRIPCION
+------------------|------------------------------------------
+auto.png          | Imagen de bienvenida (automovil generico)
+motor.png         | Icono para falla de motor / aceite
+suspension.png    | Icono para falla de suspension
+electrico.png     | Icono para falla electrica / bateria
+frenos.png        | Icono para falla de frenos
+computadora.png   | Icono para falla de computadora / OBD
+bocinas.png       | Icono para falla de bocinas / sonido
+
+FUENTES GRATUITAS RECOMENDADAS:
+  - https://www.flaticon.com  (buscar: car, engine, brakes, battery)
+  - https://icons8.com
+  - https://www.freepik.com
+
+FORMATO: PNG con canal alpha (transparencia) para mejor integracion
+         con la interfaz PCE de SWI-Prolog.
+
+NOTA: XPCE (SWI-Prolog 7.x) soporta: BMP, GIF, PNG, JPEG.
+      Se recomienda PNG para mejor calidad con fondo transparente.

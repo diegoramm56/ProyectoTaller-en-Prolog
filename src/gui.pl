@@ -163,8 +163,8 @@ botones :-
     catch(lim, _, true),
     fallas(Falla),
     guardar_historial(Falla),
-    % --- Actualizar contador ---
-    aggregate_all(count, historial(_), N),
+    % --- Actualizar contador (findall+length evita dependencia de library(aggregate)) ---
+    findall(_, historial(_), ListaH), length(ListaH, N),
     atomic_list_concat(['Diagnosticos realizados: ', N], LblContador),
     send(@contador, selection, LblContador),
     send(@texto, selection('Diagnostico completado. Puede iniciar uno nuevo.')),
